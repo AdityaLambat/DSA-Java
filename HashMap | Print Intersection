@@ -1,0 +1,46 @@
+You have been given two integer arrays/list(ARR1 and ARR2) of size N and M, respectively. 
+You need to print their intersection; An intersection for this problem can be defined when both the arrays/lists contain a particular value or to put it in other words, 
+when there is a common value that exists in both the arrays/lists.
+
+Sample Input 1 :
+2
+6
+2 6 8 5 4 3
+4
+2 3 4 7 
+2
+10 10
+1
+10
+Sample Output 1 :
+2 3 4
+10
+
+import java.util.*;
+public class Solution {
+
+	public static void intersection(int[] arr1, int[] arr2) {
+	    //Your code goes here
+        Arrays.sort(arr2);
+        HashMap<Integer, Integer> map = new HashMap<>();
+        for (int i = 0; i < arr1.length; i++) {
+            if (map.containsKey(arr1[i])) {
+                int freq = map.get(arr1[i]);
+                map.put(arr1[i], freq + 1);
+                continue;
+            }
+            map.put(arr1[i], 1);
+        }
+
+        for (int i = 0; i < arr2.length; i++) {
+            if (map.containsKey(arr2[i])) {
+                int freq = map.get(arr2[i]);
+                if (freq > 0) {
+                    System.out.print(arr2[i] + " ");
+                    map.put(arr2[i], freq - 1);
+                }
+            }
+        }
+	}
+
+}
