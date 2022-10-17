@@ -1,0 +1,57 @@
+You are given with an array of integers and an integer K. 
+You have to find and print the count of all such pairs which have difference K.
+Note: Take absolute difference between the elements of the array.
+
+Sample Input 1 :
+4 
+5 1 2 4
+3
+Sample Output 1 :
+2
+Sample Input 2 :
+4
+4 4 4 4 
+0
+Sample Output 2 :
+6
+
+import java.util.*;
+public class Solution {
+
+	public static int getPairsWithDifferenceK(int arr[], int k) {
+		HashMap<Integer, Integer> map = new HashMap<>();
+        for (int i = 0; i < arr.length; i++) {
+            if (map.containsKey(arr[i])) {
+                int freq = map.get(arr[i]);
+                map.put(arr[i], freq + 1);
+                continue;
+            }
+            map.put(arr[i], 1);
+        }
+        int count = 0;
+        if (k == 0) {
+            for (int i = 0; i < arr.length; i++) {
+                int freq = map.get(arr[i]);
+                if (freq > 1) {
+                    count = count + freq * (freq - 1) / 2;
+                }
+                map.put(arr[i], 0);
+            }
+        } else {
+            for (int i = 0; i < arr.length; i++) {
+                if (map.containsKey(arr[i] + k)) {
+                    int f1 = map.get(arr[i]);
+                    int f2 = map.get(arr[i] + k);
+                    count = count + f1 * f2;
+                }
+                if (map.containsKey(arr[i] - k)) {
+                    int f1 = map.get(arr[i]);
+                    int f2 = map.get(arr[i] - k);
+                    count = count + f1 * f2;
+                }
+                map.put(arr[i], 0);
+            }
+        }
+        return count;
+	}
+}
