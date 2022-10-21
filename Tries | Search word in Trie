@@ -1,0 +1,22 @@
+Implement the function SearchWord for the Trie class.
+For a Trie, write the function for searching a word. 
+Return true if the word is found successfully, otherwise return false.
+Note : main function is given for your reference which we are using internally to test the code.
+
+Solution Problem :-
+
+private boolean searchHelper(TrieNode root, String word) {
+        if (word.length() == 0) {
+            return root.isTerminating;
+        }
+        int childIndex = word.charAt(0) - 'a';
+        TrieNode child = root.children[childIndex];
+        if (child == null) {
+            return false;
+        }
+        return searchHelper(child, word.substring(1));
+    }
+    
+	public boolean search(String word){
+        return searchHelper(root, word);
+	}
