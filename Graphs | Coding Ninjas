@@ -1,0 +1,72 @@
+Given a NxM matrix containing Uppercase English Alphabets only. 
+Your task is to tell if there is a path in the given matrix which makes the sentence “CODINGNINJA” .
+There is a path from any cell to all its neighbouring cells. 
+For a particular cell, neighbouring cells are those cells that share an edge or a corner with the cell.
+
+Sample Input 1:
+2 11
+CXDXNXNXNXA
+XOXIXGXIXJX
+Sample Output 1:
+1
+
+Solution of Problem :-
+
+public class Solution {
+    
+    static boolean solve = false;
+
+    private static void solveHelper(char graph[][], int N, int M, int i, int j, String S, boolean[][] visited) {
+        if (S.length() == 0) {
+            solve = true;
+            return;
+        }
+        if (i < 0 || j < 0 || i == N || j == M) {
+            return;
+        }
+        if (visited[i][j]) {
+            return;
+        }
+        if (S.charAt(0) != graph[i][j]) {
+            return;
+        }
+        visited[i][j] = true;
+        solveHelper(graph, N, M, i - 1, j, S.substring(1), visited);//up
+        solveHelper(graph, N, M, i - 1, j + 1, S.substring(1), visited);//up-diagonal-right
+        solveHelper(graph, N, M, i, j + 1, S.substring(1), visited);//right
+        solveHelper(graph, N, M, i + 1, j + 1, S.substring(1), visited);//down-diagonal-right
+        solveHelper(graph, N, M, i + 1, j, S.substring(1), visited);//down
+        solveHelper(graph, N, M, i + 1, j - 1, S.substring(1), visited);//down-diagonal-left
+        solveHelper(graph, N, M, i, j - 1, S.substring(1), visited);//left
+        solveHelper(graph, N, M, i - 1, j - 1, S.substring(1), visited);//up-diagonal-left
+        visited[i][j] = false;
+    }
+	
+	int solve(String[] Graph , int N, int M)
+	{
+		char graph[][] = new char[N][M];
+        int k = 0;
+        for (int i = 0; i < N; i++) {
+            for (int j = 0; j < M; j++) {
+                String str = Graph[k];
+                graph[i][j] = str.charAt(j);
+            }
+            k++;
+        }
+        String S = "CODINGNINJA";
+        boolean visited[][] = new boolean[N][M];
+        for (int i = 0; i < N; i++) {
+            for (int j = 0; j < M; j++) {
+                if (graph[i][j] == S.charAt(0)) {
+                    solveHelper(graph, N, M, i, j, S, visited);
+                    if (solve) {
+                        return 1;
+                    }
+                }
+            }
+        }
+        return 0;
+	}
+	
+	
+}
