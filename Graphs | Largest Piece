@@ -16,48 +16,42 @@ public class Solution {
 
     static int[][] dir = { { 1, 0 }, { -1, 0 }, { 0, 1 }, { 0, -1 } };
     
-    private static int cakeDFS(char cake[][], int n, int i, int j, boolean visited[][]) {
+    private static int cakeDFS(String edge[], int n, int i, int j, boolean visited[][]) {
         int count = 1;
-        if (i > 0 && !visited[i - 1][j] && cake[i - 1][j] == '1') { // up
+        if (i > 0 && !visited[i - 1][j] && edge[i - 1].charAt(j) == '1') { // up
             visited[i - 1][j] = true;
-            count += cakeDFS(cake, n, i - 1, j, visited);
+            count += cakeDFS(edge, n, i - 1, j, visited);
         }
-        if (j > 0 && !visited[i][j - 1] && cake[i][j - 1] == '1') { //left
+        if (j > 0 && !visited[i][j - 1] && edge[i].charAt(j - 1) == '1') { //left
             visited[i][j - 1] = true;
-            count += cakeDFS(cake, n, i, j - 1, visited);
+            count += cakeDFS(edge, n, i, j - 1, visited);
         }
-        if (i < n - 1 && !visited[i + 1][j] && cake[i + 1][j] == '1') { //down
+        if (i < n - 1 && !visited[i + 1][j] && edge[i + 1].charAt(j) == '1') { //down
             visited[i + 1][j] = true;
-            count += cakeDFS(cake, n, i + 1, j, visited);
+            count += cakeDFS(edge, n, i + 1, j, visited);
         }
-        if (j < n - 1 && !visited[i][j + 1] && cake[i][j + 1] == '1') { //right
+        if (j < n - 1 && !visited[i][j + 1] && edge[i].charAt(j + 1) == '1') { //right
             visited[i][j + 1] = true;
-            count += cakeDFS(cake, n, i, j + 1, visited);
+            count += cakeDFS(edge, n, i, j + 1, visited);
         }
 
         return count;
     }
 
 	public static int dfs(String[] edge, int n) {
-        char cake[][] = new char[n][n];
-        for (int i = 0; i < n; i++) {
-            String str = edge[i];
-            for (int j = 0; j < n; j++) {
-                cake[i][j] = str.charAt(j);
-            }
-        }
         boolean visited[][] = new boolean[n][n];
         int countMax = 0;
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < n; j++) {
-                if (cake[i][j] == '1' && !visited[i][j]) {
+                if (edge[i].charAt(j) == '1' && !visited[i][j]) {
                     visited[i][j] = true;
-                    int ans = cakeDFS(cake, n, i, j, visited);
+                    int ans = cakeDFS(edge, n, i, j, visited);
                     countMax = Math.max(ans, countMax);
                 }
             }
         }
         return countMax;
 	}
+
 
 }
